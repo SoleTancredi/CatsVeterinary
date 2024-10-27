@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 import static com.veterinaria.exclusive_cats.entity.Gato.crearGato;
 @Service
 public class GatoServiceImpl implements GatoService {
-    private static final Logger log = LoggerFactory.getLogger(GatoService.class);
     private final GatoRepository gatoRepository;
     private final DuenioRepository duenioRepository;
     private final GatoMapper gatoMapper;
@@ -45,21 +44,19 @@ public class GatoServiceImpl implements GatoService {
             throw new InvalidInputException("El gatoDto no puede ser nulo.");
         }
 
-        gatoRepository.findByNameAndAge(gatoDto.getNombre(), gatoDto.getEdad()).ifPresent(existingGato -> {
+        gatoRepository.findByNombreAndEdad(gatoDto.getNombre(), gatoDto.getEdad()).ifPresent(existingGato -> {
             throw new GatoAlreadyExistsException(
                     "El gato con nombre " + gatoDto.getNombre() + " y edad " + gatoDto.getEdad() + " ya existe en la base de datos."
             );
         });
 
-        Duenio duenio = duenioRepository.findById(gatoDto.getDuenioId())
+        Duenio duenio = duenioRepository.findById(gatoDto.getDuenioId().getId())
                 .orElseThrow(() -> new DuenioNotFoundException("No se encontró el dueño con ID: " + gatoDto.getDuenioId()));
 
         HistorialMedico historialMedico = new HistorialMedico();
 
         Gato gato = crearGato(gatoDto.getNombre(), gatoDto.getEdad(), gatoDto.getRaza(), historialMedico, duenio);
         Gato savedGato = gatoRepository.save(gato);
-
-        log.info("Gato creado exitosamente con ID: " + savedGato.getId());
 
         return gatoMapper.toDto(savedGato);
     }

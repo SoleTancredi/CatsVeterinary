@@ -26,15 +26,20 @@ public class Consulta {
     @Column(name = "motivo_consulta", nullable = false, length = 255)
     private String motivoConsulta;
 
-    public Consulta(Veterinario veterinarioId, Gato gatoId, Date fecha, String motivoConsulta) {
+    @ManyToOne
+    @JoinColumn(name = "historial_medico_id")
+    private HistorialMedico historialMedico;
+
+    public Consulta(Veterinario veterinarioId, Gato gatoId, Date fecha, String motivoConsulta, HistorialMedico historialMedico) {
         this.veterinarioId = veterinarioId;
         this.gatoId = gatoId;
         this.fecha = fecha;
         this.motivoConsulta = motivoConsulta;
+        this.historialMedico = historialMedico;
     }
 
-    public static Consulta crearConsulta(Veterinario veterinarioId, Gato gatoId, Date fecha, String motivoConsulta) {
-        return new Consulta(veterinarioId, gatoId, fecha, motivoConsulta);
+    public static Consulta crearConsulta(Veterinario veterinarioId, Gato gatoId, Date fecha, String motivoConsulta,HistorialMedico historialMedico) {
+        return new Consulta(veterinarioId, gatoId, fecha, motivoConsulta, historialMedico);
     }
 
     public Long getId() {

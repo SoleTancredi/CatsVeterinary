@@ -1,8 +1,6 @@
 package com.veterinaria.exclusive_cats.entity;
 
 import jakarta.persistence.*;
-
-import javax.persistence.*;
 import java.util.List;
 
 @Entity
