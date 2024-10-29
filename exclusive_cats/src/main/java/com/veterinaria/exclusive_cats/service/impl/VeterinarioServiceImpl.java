@@ -86,21 +86,23 @@ public class VeterinarioServiceImpl implements VeterinarioService {
 
         boolean cambios = false;
 
-        if (updateFieldIfDifferent(veterinario::getNombre, veterinario::setNombre, veterinario.getNombre())) {
+        if (updateFieldIfDifferent(veterinario::getNombre, veterinario::setNombre, veterinarioDto.getNombre())) {
             cambios = true;
         }
-        if (updateFieldIfDifferent(veterinario::getApellido, veterinario::setApellido, veterinario.getApellido())) {
+        if (updateFieldIfDifferent(veterinario::getApellido, veterinario::setApellido, veterinarioDto.getApellido())) {
             cambios = true;
         }
-        if (updateFieldIfDifferent(veterinario::getEspecialidad, veterinario::setEspecialidad, veterinario.getEspecialidad())) {
+        if (updateFieldIfDifferent(veterinario::getEspecialidad, veterinario::setEspecialidad, veterinarioDto.getEspecialidad())) {
             cambios = true;
         }
+
+        Veterinario veterinarioActualizado = new Veterinario();
 
         if (cambios) {
-            veterinarioRepository.save(veterinario);
+            veterinarioActualizado = veterinarioRepository.save(veterinario);
         }
 
-        return veterinarioMapper.toDto(veterinario);
+        return veterinarioMapper.toDto(veterinarioActualizado);
     }
 
     private <T> boolean updateFieldIfDifferent(Supplier<T> getter, Consumer<T> setter, T newValue) {

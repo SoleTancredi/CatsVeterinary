@@ -20,13 +20,12 @@ public class Gato {
     @Column(name = "raza", nullable = false, length = 50)
     private String raza;
 
-    @OneToOne
-    @JoinColumn(name = "historial_medico_id")
-    private HistorialMedico historialMedicoId;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "duenio_id")
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "duenio_id", nullable = true)
     private Duenio duenioId;
+
+    public Gato() {
+    }
 
     public Long getId() {
         return id;
@@ -60,14 +59,6 @@ public class Gato {
         this.raza = raza;
     }
 
-    public HistorialMedico getHistorialMedicoId() {
-        return historialMedicoId;
-    }
-
-    public void setHistorialMedicoId(HistorialMedico historialMedicoId) {
-        this.historialMedicoId = historialMedicoId;
-    }
-
     public Duenio getDuenioId() {
         return duenioId;
     }
@@ -76,17 +67,16 @@ public class Gato {
         this.duenioId = duenioId;
     }
 
-    public Gato(Long id, String nombre, int edad, String raza, HistorialMedico historialMedicoId, Duenio duenioId) {
+    public Gato(Long id, String nombre, int edad, String raza, Duenio duenioId) {
         this.id = id;
         this.nombre = nombre;
         this.edad = edad;
         this.raza = raza;
-        this.historialMedicoId = historialMedicoId;
         this.duenioId = duenioId;
     }
 
-    public static Gato crearGato(String nombre, int edad, String raza, HistorialMedico historialMedicoId, Duenio duenioId) {
-        return new Gato(null, nombre, edad, raza, historialMedicoId, duenioId);
+    public static Gato crearGato(String nombre, int edad, String raza, Duenio duenioId) {
+        return new Gato(null, nombre, edad, raza, duenioId);
     }
 
     @Override

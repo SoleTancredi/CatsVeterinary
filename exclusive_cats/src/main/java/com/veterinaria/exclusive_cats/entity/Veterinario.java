@@ -19,6 +19,9 @@ public class Veterinario {
     @Column(name = "especialidad", nullable = false)
     private Especialidad especialidad;
 
+    public Veterinario() {
+    }
+
     public Veterinario(String nombre, String apellido, Especialidad especialidad) {
         this.nombre = nombre;
         this.apellido = apellido;

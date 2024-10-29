@@ -1,7 +1,5 @@
 package com.veterinaria.exclusive_cats.controller.dto;
 
-import com.veterinaria.exclusive_cats.entity.Duenio;
-import com.veterinaria.exclusive_cats.entity.HistorialMedico;
 import jakarta.validation.constraints.*;
 
 public class GatoDto {
@@ -19,11 +17,8 @@ public class GatoDto {
     @Size(min = 2, max = 50, message = "La raza debe tener entre 2 y 50 caracteres")
     private String raza;
 
-    @NotNull(message = "El id del historial médico es obligatorio")
-    private HistorialMedico historialMedicoId;
-
     @NotNull(message = "El id del dueño es obligatorio")
-    private Duenio duenioId;
+    private Long duenioId;
 
     public String getNombre() {
         return nombre;
@@ -49,19 +44,11 @@ public class GatoDto {
         this.raza = raza;
     }
 
-    public HistorialMedico getHistorialMedicoId() {
-        return historialMedicoId;
-    }
-
-    public void setHistorialMedicoId(HistorialMedico historialMedicoId) {
-        this.historialMedicoId = historialMedicoId;
-    }
-
-    public Duenio getDuenioId() {
+    public Long getDuenioId() {
         return duenioId;
     }
 
-    public void setDuenioId(Duenio duenioId) {
+    public void setDuenioId(Long duenioId) {
         this.duenioId = duenioId;
     }
 

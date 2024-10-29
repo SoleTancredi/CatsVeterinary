@@ -3,18 +3,12 @@ package com.veterinaria.exclusive_cats.service.impl;
 import com.veterinaria.exclusive_cats.controller.dto.GatoDto;
 import com.veterinaria.exclusive_cats.entity.Duenio;
 import com.veterinaria.exclusive_cats.entity.Gato;
-import com.veterinaria.exclusive_cats.entity.HistorialMedico;
-import com.veterinaria.exclusive_cats.exceptions.DuenioNotFoundException;
-import com.veterinaria.exclusive_cats.exceptions.GatoAlreadyExistsException;
-import com.veterinaria.exclusive_cats.exceptions.GatoNotFoundException;
-import com.veterinaria.exclusive_cats.exceptions.InvalidInputException;
+import com.veterinaria.exclusive_cats.exceptions.*;
 import com.veterinaria.exclusive_cats.repository.DuenioRepository;
 import com.veterinaria.exclusive_cats.repository.GatoRepository;
 import com.veterinaria.exclusive_cats.service.GatoService;
 import com.veterinaria.exclusive_cats.service.mapper.GatoMapper;
 import jakarta.transaction.Transactional;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +23,6 @@ public class GatoServiceImpl implements GatoService {
     private final GatoRepository gatoRepository;
     private final DuenioRepository duenioRepository;
     private final GatoMapper gatoMapper;
-
     public GatoServiceImpl(GatoRepository gatoRepository, DuenioRepository duenioRepository, GatoMapper gatoMapper) {
         this.gatoRepository = gatoRepository;
         this.duenioRepository = duenioRepository;
@@ -50,12 +43,10 @@ public class GatoServiceImpl implements GatoService {
             );
         });
 
-        Duenio duenio = duenioRepository.findById(gatoDto.getDuenioId().getId())
+        Duenio duenio = duenioRepository.findById(gatoDto.getDuenioId())
                 .orElseThrow(() -> new DuenioNotFoundException("No se encontró el dueño con ID: " + gatoDto.getDuenioId()));
 
-        HistorialMedico historialMedico = new HistorialMedico();
-
-        Gato gato = crearGato(gatoDto.getNombre(), gatoDto.getEdad(), gatoDto.getRaza(), historialMedico, duenio);
+        Gato gato = crearGato(gatoDto.getNombre(), gatoDto.getEdad(), gatoDto.getRaza(), duenio);
         Gato savedGato = gatoRepository.save(gato);
 
         return gatoMapper.toDto(savedGato);

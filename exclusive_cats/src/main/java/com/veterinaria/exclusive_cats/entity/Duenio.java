@@ -71,6 +71,9 @@ public class Duenio {
         this.email = email;
     }
 
+    public Duenio() {
+    }
+
     public Duenio(String nombre, String apellido, String telefono, String direccion, String email) {
         this.nombre = nombre;
         this.apellido = apellido;

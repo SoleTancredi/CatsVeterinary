@@ -3,7 +3,6 @@ package com.veterinaria.exclusive_cats.service.impl;
 import com.veterinaria.exclusive_cats.controller.dto.ConsultaDto;
 import com.veterinaria.exclusive_cats.entity.Consulta;
 import com.veterinaria.exclusive_cats.entity.Gato;
-import com.veterinaria.exclusive_cats.entity.HistorialMedico;
 import com.veterinaria.exclusive_cats.entity.Veterinario;
 import com.veterinaria.exclusive_cats.exceptions.ConsultaNotFoundException;
 import com.veterinaria.exclusive_cats.exceptions.GatoNotFoundException;
@@ -12,11 +11,8 @@ import com.veterinaria.exclusive_cats.repository.ConsultaRepository;
 import com.veterinaria.exclusive_cats.repository.GatoRepository;
 import com.veterinaria.exclusive_cats.repository.VeterinarioRepository;
 import com.veterinaria.exclusive_cats.service.ConsultaService;
-import com.veterinaria.exclusive_cats.service.GatoService;
 import com.veterinaria.exclusive_cats.service.mapper.ConsultaMapper;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,13 +44,15 @@ public class ConsultaServiceImpl implements ConsultaService {
             throw new InvalidInputException("El gatoDto no puede ser nulo.");
         }
 
-        Gato gato = gatoRepository.findById(consultaDto.getGatoId().getId())
+        Gato gato = gatoRepository.findById(consultaDto.getGatoId())
                 .orElseThrow(() -> new GatoNotFoundException("No se encontró el gato con ID: " + consultaDto.getGatoId()));
 
-        Veterinario veterinario = veterinarioRepository.findById(consultaDto.getVeterinarioId().getId())
+        Veterinario veterinario = veterinarioRepository.findById(consultaDto.getVeterinarioId())
                 .orElseThrow(() -> new GatoNotFoundException("No se encontró el veterinario con ID: " + consultaDto.getVeterinarioId()));
 
-        Consulta consulta = crearConsulta(veterinario, gato, consultaDto.getFecha(), consultaDto.getMotivoConsulta(), new HistorialMedico());
+        System.out.println("ID DEL GATOTE QUE ESTOY PASANDO AL QUERER CREAR CONSULTA ----------" + gato.toString());
+        System.out.println("ID VETERINARIOOOOO QUE ESTOY PASANDO AL QUERER CREAR CONSULTA ----------" + veterinario.toString());
+        Consulta consulta = crearConsulta(veterinario, gato, consultaDto.getFecha(), consultaDto.getMotivoConsulta());
 
         Consulta savedConsulta = consultaRepository.save(consulta);
 
@@ -74,7 +72,7 @@ public class ConsultaServiceImpl implements ConsultaService {
     public ConsultaDto getConsultaById(Long id) {
         return consultaRepository.findById(id)
                 .map(consultaMapper::toDto)
-                .orElseThrow(() -> new ConsultaNotFoundException("Consulta no encontrada!"));
+                .orElseThrow(() -> new ConsultaNotFoundException("Consulta no encontrada! " + id));
     }
 
     @Override

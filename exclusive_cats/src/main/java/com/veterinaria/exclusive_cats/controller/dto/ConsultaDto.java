@@ -12,10 +12,10 @@ import java.sql.Date;
 public class ConsultaDto {
     private Long id;
     @NotNull(message = "El veterinario es obligatorio.")
-    private Veterinario veterinarioId;
+    private Long veterinarioId;
 
     @NotNull(message = "El gato es obligatorio.")
-    private Gato gatoId;
+    private Long gatoId;
 
     @NotNull(message = "La fecha es obligatoria.")
     @FutureOrPresent(message = "La fecha debe ser hoy o en el futuro.")
@@ -25,19 +25,20 @@ public class ConsultaDto {
     @Size(max = 255, message = "El motivo de consulta no puede exceder 255 caracteres.")
     private String motivoConsulta;
 
-    public Veterinario getVeterinarioId() {
+
+    public Long getVeterinarioId() {
         return veterinarioId;
     }
 
-    public void setVeterinarioId(Veterinario veterinarioId) {
+    public void setVeterinarioId(Long veterinarioId) {
         this.veterinarioId = veterinarioId;
     }
 
-    public Gato getGatoId() {
+    public Long getGatoId() {
         return gatoId;
     }
 
-    public void setGatoId(Gato gatoId) {
+    public void setGatoId(Long gatoId) {
         this.gatoId = gatoId;
     }
 

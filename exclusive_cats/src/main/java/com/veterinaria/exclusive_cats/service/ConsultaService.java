@@ -1,6 +1,7 @@
 package com.veterinaria.exclusive_cats.service;
 
 import com.veterinaria.exclusive_cats.controller.dto.ConsultaDto;
+
 import java.util.List;
 
 public interface ConsultaService {
